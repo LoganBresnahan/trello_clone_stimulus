@@ -16,7 +16,11 @@ defmodule TrelloCloneStimulusWeb.Router do
   scope "/", TrelloCloneStimulusWeb do
     pipe_through :browser # Use the default browser stack
 
-    get "/", PageController, :index
+    get "/", BoardController, :index
+
+    resources "/users", UserController
+    resources "/boards", BoardController
+    resources "/groups", GroupController
   end
 
   # Other scopes may use custom stacks.

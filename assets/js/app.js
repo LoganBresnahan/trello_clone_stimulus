@@ -21,7 +21,7 @@ import "phoenix_html"
 // import socket from "./socket"
 import { Application } from "stimulus"
 
-import PageController from "./controllers/pageController"
+import BoardController from "./controllers/boardController"
 
 const application = Application.start()
-application.register("page", PageController)
+application.register("board", BoardController)

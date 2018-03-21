@@ -1,5 +1,0 @@
-<div data-controller="page">
-  <input data-target="page.myInput" type="text">
-  <button data-action="click->page#alertText">Click Here</button>
-</div>
-
