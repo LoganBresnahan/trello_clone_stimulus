@@ -35,8 +35,18 @@ defmodule TrelloCloneStimulus.Projects do
       ** (Ecto.NoResultsError)
 
   """
-  def get_board!(id), do: Repo.get!(Board, id)
-
+  def get_board!(id) do
+    # Repo.get!(Board, id)
+    # |> Repo.preload(:lanes)
+    from(
+      board in Board,
+      where: board.id == ^id,
+      left_join: lanes in assoc(board, :lanes),
+      left_join: panels in assoc(lanes, :panels),
+      preload: [lanes: {lanes, panels: panels}]
+    )
+    |> Repo.one
+  end
   @doc """
   Creates a board.
 

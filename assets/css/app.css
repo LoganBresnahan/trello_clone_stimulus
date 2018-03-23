@@ -1,1 +1,13 @@
 /* This file is for your main application css. */
+.lane {
+  display: inline-block;
+  margin-right: 25px;
+  border-style: solid;
+  padding: 4px;
+}
+
+.my-panel {
+  border-style: solid;
+  margin: 3px;
+  padding: 3px;
+}

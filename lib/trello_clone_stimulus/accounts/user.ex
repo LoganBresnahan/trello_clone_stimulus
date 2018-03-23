@@ -1,6 +1,7 @@
 defmodule TrelloCloneStimulus.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
+  alias TrelloCloneStimulus.GroupAccounts.Group
 
 
   schema "users" do
@@ -8,6 +9,7 @@ defmodule TrelloCloneStimulus.Accounts.User do
     field :email, :string
     field :name, :string
     field :password, :string
+    many_to_many :groups, Group, join_through: "users_groups"
 
     timestamps()
   end
