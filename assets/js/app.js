@@ -18,13 +18,17 @@ import "phoenix_html"
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
-// import socket from "./socket"
-var Turbolinks = require("turbolinks")
-Turbolinks.start()
+import socket from "./socket"
 
+// Load Turbolinks
+// const Turbolinks = require("turbolinks")
+// Turbolinks.start()
+
+// Load Stimulus
 import { Application } from "stimulus"
 
 import BoardController from "./controllers/boardController"
 
 const application = Application.start()
 application.register("board", BoardController)
+

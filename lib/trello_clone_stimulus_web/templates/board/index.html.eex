@@ -1,26 +1,60 @@
 <h2>Listing Boards</h2>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Name</th>
+<div data-controller="board">
+  <div class="page-items" id="page">
+    <%= for board <- Enum.sort_by(@boards, &(&1.order)) do %>
+      <div class="board" style="background-color:<%= board.color %>">
+        <div class="colors">
+          <div class="red" data-action="click->board#changeColor"></div>
+          <div class="white" data-action="click->board#changeColor"></div>
+          <div class="green" data-action="click->board#changeColor"></div>
+          <div class="blue" data-action="click->board#changeColor"></div>
+        </div>
+        <h2 id="board-name-<%= board.id %>" data-action="click->board#makeEditable blur->board#submitData">
+          <%= board.name %>
+        </h2>
+        <div id="board-<%= board.id %>" class="board-items">
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for board <- @boards do %>
-    <tr>
-      <td><%= board.name %></td>
+          <%= for lane <- Enum.sort_by(board.lanes, &(&1.order)) do %>
+            <div class="lane" style="background-color:<%= lane.color %>">
+              <div class="colors">
+                <div class="red" data-action="click->board#changeColor"></div>
+                <div class="white" data-action="click->board#changeColor"></div>
+                <div class="green" data-action="click->board#changeColor"></div>
+                <div class="blue" data-action="click->board#changeColor"></div>
+              </div>
+              <h3 id="lane-title-<%= lane.id %>" data-action="click->board#makeEditable blur->board#submitData">
+                <%= lane.title %>
+              </h3>
+              <div id="lane-<%= lane.id %>" class="sortable-lane">
 
-      <td class="text-right">
-        <span><%= link "Show", to: board_path(@conn, :show, board), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Edit", to: board_path(@conn, :edit, board), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Delete", to: board_path(@conn, :delete, board), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
-      </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
+                <%= for panel <- Enum.sort_by(lane.panels, &(&1.order)) do %>
+                  <div class="my-panel" style="background-color:<%= panel.color %>">
+                    <div class="colors">
+                      <div class="red" data-action="click->board#changeColor"></div>
+                      <div class="white" data-action="click->board#changeColor"></div>
+                      <div class="green" data-action="click->board#changeColor"></div>
+                      <div class="blue" data-action="click->board#changeColor"></div>
+                    </div>
+                    <h4 id="panel-title-<%= panel.id %>" data-action="click->board#makeEditable blur->board#submitData">
+                      <%= panel.title %>
+                    </h4>
+                    <div id="panel-<%= panel.id %>">
+                      <p id="panel-content-<%= panel.id %>" data-action="click->board#makeEditable blur->board#submitData">
+                        <%= panel.content %>
+                      </p>
+                    </div>
+                  </div>
+                <% end %>
+
+              </div>
+            </div>
+          <% end %>
+
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
 
 <span><%= link "New Board", to: board_path(@conn, :new) %></span>

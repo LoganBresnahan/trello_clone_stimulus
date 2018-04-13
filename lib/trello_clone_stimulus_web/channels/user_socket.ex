@@ -2,7 +2,7 @@ defmodule TrelloCloneStimulusWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", TrelloCloneStimulusWeb.RoomChannel
+  channel "room:*", TrelloCloneStimulusWeb.RoomChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket

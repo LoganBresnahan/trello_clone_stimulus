@@ -24,7 +24,11 @@ defmodule TrelloCloneStimulusWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", TrelloCloneStimulusWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", TrelloCloneStimulusWeb do
+    pipe_through :api
+
+    post "/order_event", EventController, :order_event
+    post "/content_event", EventController, :content_event
+    post "/color_event", EventController, :color_event
+  end
 end

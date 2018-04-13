@@ -1,3 +1,4 @@
+# require IEx
 defmodule TrelloCloneStimulusWeb.BoardController do
   use TrelloCloneStimulusWeb, :controller
 
@@ -27,6 +28,7 @@ defmodule TrelloCloneStimulusWeb.BoardController do
 
   def show(conn, %{"id" => id}) do
     board = Projects.get_board!(id)
+    # IEx.pry
     render(conn, "show.html", board: board)
   end
 

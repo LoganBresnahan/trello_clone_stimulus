@@ -7,6 +7,7 @@ defmodule TrelloCloneStimulus.Projects do
   alias TrelloCloneStimulus.Repo
 
   alias TrelloCloneStimulus.Projects.Board
+  alias TrelloCloneStimulus.Projects.Panel
 
   @doc """
   Returns the list of boards.
@@ -18,7 +19,13 @@ defmodule TrelloCloneStimulus.Projects do
 
   """
   def list_boards do
-    Repo.all(Board)
+    from(
+      board in Board,
+      left_join: lanes in assoc(board, :lanes),
+      left_join: panels in assoc(lanes, :panels),
+      preload: [lanes: {lanes, panels: panels}]
+    )
+    |> Repo.all()
   end
 
   @doc """
@@ -43,7 +50,8 @@ defmodule TrelloCloneStimulus.Projects do
       where: board.id == ^id,
       left_join: lanes in assoc(board, :lanes),
       left_join: panels in assoc(lanes, :panels),
-      preload: [lanes: {lanes, panels: panels}]
+      preload: [lanes: {lanes, panels: panels}],
+      order_by: [asc: panels.order]
     )
     |> Repo.one
   end

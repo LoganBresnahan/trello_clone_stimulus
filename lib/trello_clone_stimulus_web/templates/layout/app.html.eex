@@ -9,6 +9,8 @@
 
     <title>Trello Clone Stimulus!</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <%# <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> %>
+    <%# <script src="https://code.jquery.com/jquery-1.12.4.js"></script> %>
   </head>
 
   <body>
@@ -27,6 +29,6 @@
       </main>
 
     </div> <!-- /container -->
-    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+    <script data-turbolinks-suppress-warning src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>
