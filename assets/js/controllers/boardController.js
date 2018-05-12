@@ -1,9 +1,25 @@
 import { Controller } from "stimulus"
-const Sortable = require("sortablejs")
+import Sortable from "sortablejs"
+import { Socket } from "phoenix"
 
 export default class extends Controller {
   initialize() {
     this.initSortableElements()
+    const socket = new Socket("/socket", {params: {token: window.userToken}})
+    socket.connect()
+    this.channel = socket.channel("room:lobby", {})
+    // let chatInput = document.querySelector("#chat-input")
+    const messageContainer = document.querySelector("#messages")
+
+    this.channel.join()
+      .receive("ok", resp => { console.log("Joined successfully", resp) })
+      .receive("error", resp => { console.log("Unable to join", resp) })
+
+    this.channel.on("new_msg", payload => {
+      let messageItem = document.createElement("li")
+      messageItem.innerText = `[${Date()}] ${payload.body}`
+      messageContainer.appendChild(messageItem)
+    })
   }
 
   makeEditable(event) {
@@ -25,6 +41,14 @@ export default class extends Controller {
 
     this.updateColor(color, panelDiv)
     panelDiv.previousElementSibling.previousElementSibling.parentElement.style.backgroundColor = color
+  }
+
+  handleChatInput(event) {
+    console.log(event)
+    if(event.keyCode === 13){
+      this.channel.push("new_msg", {body: event.currentTarget.value})
+      event.currentTarget.value = ""
+    }
   }
 
   //Private Methods
@@ -75,7 +99,7 @@ export default class extends Controller {
   }
 
   updateOrder(sortEvent) {
-    fetch("http://localhost:4000/api/order_event", {
+    fetch("/api/order_event", {
       method: "POST",
       headers: new Headers({
         'Content-Type': 'application/json',
@@ -89,7 +113,7 @@ export default class extends Controller {
   }
 
   updateColor(color, panelDiv) {
-    fetch("http://localhost:4000/api/color_event", {
+    fetch("/api/color_event", {
       method: "POST",
       headers: new Headers({
         'Content-Type': 'application/json',
@@ -102,7 +126,7 @@ export default class extends Controller {
   }
 
   updateContent(modelInfo, content) {
-    fetch("http://localhost:4000/api/content_event", {
+    fetch("/api/content_event", {
       method: "POST",
       headers: new Headers({
         'Content-Type': 'application/json',
@@ -114,3 +138,5 @@ export default class extends Controller {
     })
   }
 }
+
+// export default socket

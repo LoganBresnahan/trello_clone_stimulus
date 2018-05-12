@@ -1,6 +1,9 @@
-<h2>Listing Boards</h2>
+<h2>Chat Log</h2>
 
 <div data-controller="board">
+  <div id="messages"></div>
+  <input id="chat-input" type="text" data-action="keypress->board#handleChatInput"></input>
+
   <div class="page-items" id="page">
     <%= for board <- Enum.sort_by(@boards, &(&1.order)) do %>
       <div class="board" style="background-color:<%= board.color %>">
