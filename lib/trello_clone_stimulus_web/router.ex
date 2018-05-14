@@ -30,5 +30,6 @@ defmodule TrelloCloneStimulusWeb.Router do
     post "/order_event", EventController, :order_event
     post "/content_event", EventController, :content_event
     post "/color_event", EventController, :color_event
+    post "/event", EventController, :event
   end
 end
