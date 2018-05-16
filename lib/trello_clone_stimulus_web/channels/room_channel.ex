@@ -12,28 +12,30 @@ defmodule TrelloCloneStimulusWeb.RoomChannel do
   #   broadcast! socket, "new_msg", %{body: body}
   #   {:noreply, socket}
   # end
-  def handle_in("make_editable", %{"body" => body}, socket) do
-    broadcast! socket, "make_editable", %{body: body}
+  def handle_in("make_editable", %{"body" => body, "user" => user}, socket) do
+    broadcast! socket, "make_editable", %{body: body, user: user}
     {:noreply, socket}
   end
-  def handle_in("set_content", %{"body" => body, "elementId" => elementId}, socket) do
-    broadcast! socket, "set_content", %{body: body, elementId: elementId}
+  def handle_in("set_content", %{"body" => body, "elementId" => elementId, "user" => user}, socket) do
+    broadcast! socket, "set_content", %{body: body, elementId: elementId, user: user}
     {:noreply, socket}
   end
-  def handle_in("unblur_editable", %{"body" => body}, socket) do
-    broadcast! socket, "unblur_editable", %{body: body}
+  def handle_in("unblur_editable", %{"body" => body, "user" => user}, socket) do
+    broadcast! socket, "unblur_editable", %{body: body, user: user}
     {:noreply, socket}
   end
-  def handle_in("change_color", %{"body" => body, "elementId" => elementId}, socket) do
-    broadcast! socket, "change_color", %{body: body, elementId: elementId}
+  def handle_in("change_color", %{"body" => body, "elementId" => elementId, "user" => user}, socket) do
+    broadcast! socket, "change_color", %{body: body, elementId: elementId, user: user}
     {:noreply, socket}
   end
-  def handle_in("blur_sort", %{"body" => body}, socket) do
-    broadcast! socket, "blur_sort", %{body: body}
+  def handle_in("blur_sort", %{"body" => body, "user" => user}, socket) do
+    broadcast! socket, "blur_sort", %{body: body, user: user}
     {:noreply, socket}
   end
-  def handle_in("unblur_sort", %{"body" => body}, socket) do
-    broadcast! socket, "unblur_sort", %{body: body}
+  def handle_in("unblur_sort", %{"body" => body = %{to_children: to_children}, "user" => user}, socket) do
+    Enum.each(to_children, fn(id) -> id end)
+
+    broadcast! socket, "unblur_sort", %{body: body, user: user}
     {:noreply, socket}
   end
 end

@@ -23,7 +23,7 @@ export default class extends Controller {
     // })
 
     this.channel.on("make_editable", payload => {
-      if(!!window.chrome) {
+      if(payload.user != window.userToken) {
         const contentId = document.getElementById(payload.body)
 
         contentId.style.pointerEvents = "none"
@@ -32,7 +32,7 @@ export default class extends Controller {
     })
 
     this.channel.on("set_content", payload => {
-      if(!!window.chrome) {
+      if(payload.user != window.userToken) {
         const contentId = document.getElementById(payload.elementId)
 
         contentId.innerText = payload.body
@@ -40,7 +40,7 @@ export default class extends Controller {
     })
 
     this.channel.on("unblur_editable", payload => {
-      if(!!window.chrome) {
+      if(payload.user != window.userToken) {
         const contentId = document.getElementById(payload.body)
 
         contentId.style.pointerEvents = "all"
@@ -49,7 +49,7 @@ export default class extends Controller {
     })
 
     this.channel.on("change_color", payload => {
-      if(!!window.chrome) {
+      if(payload.user != window.userToken) {
         const contentId = document.getElementById(payload.elementId)
 
         contentId.style.backgroundColor = payload.body
@@ -57,7 +57,7 @@ export default class extends Controller {
     })
 
     this.channel.on("blur_sort", payload => {
-      if(!!window.chrome) {
+      if(payload.user != window.userToken) {
         console.log("ok")
         const element = document.getElementById(payload.body)
 
@@ -67,16 +67,16 @@ export default class extends Controller {
     })
 
     this.channel.on("unblur_sort", payload => {
-      if(!!window.chrome) {
+      if(payload.user != window.userToken) {
         const item = document.getElementById(payload.body.item)
 
         // const parentElement = document.getElementById(payload.body.to)
         // parentElement.appendChild(item)
-
-        const siblingElement = document.getElementById(payload.to_children[0])
-
+        
+        const siblingElement = document.getElementById(payload.body.to_children[0])
+        // change where it is inserted so it goes after the panel container id
         siblingElement.insertAdjacentElement("afterEnd", item)
-        // debugger
+        
         item.style.pointerEvents = "all"
         item.style.filter = "none"
       }
@@ -88,7 +88,7 @@ export default class extends Controller {
 
     target.setAttribute("contenteditable", "true")
 
-    this.channel.push("make_editable", {body: target.id})
+    this.channel.push("make_editable", {body: target.id, user: window.userToken})
   }
 
   submitData(event) {
@@ -97,8 +97,8 @@ export default class extends Controller {
     this.updateContent(target.id, target.textContent)
     target.setAttribute("contenteditable", "false")
 
-    this.channel.push("set_content", {body: target.innerText, elementId: target.id})
-    this.channel.push("unblur_editable", {body: target.id})
+    this.channel.push("set_content", {body: target.innerText, elementId: target.id, user: window.userToken})
+    this.channel.push("unblur_editable", {body: target.id, user: window.userToken})
   }
 
   changeColor(event) {
@@ -110,7 +110,7 @@ export default class extends Controller {
     const parentDiv = panelDiv.previousElementSibling.previousElementSibling.parentElement
     parentDiv.style.backgroundColor = color
 
-    this.channel.push("change_color", {body: color, elementId: parentDiv.id})
+    this.channel.push("change_color", {body: color, elementId: parentDiv.id, user: window.userToken})
   }
 
   // handleChatInput(event) {
@@ -209,7 +209,7 @@ export default class extends Controller {
       from_children: Array.from(sortEvent.from.children).map((div)=>{return div.lastElementChild.id})
     }
 
-    this.channel.push("unblur_sort", {body: payload})
+    this.channel.push("unblur_sort", {body: payload, user: window.userToken})
   }
 
   updateOrder(sortEvent) {

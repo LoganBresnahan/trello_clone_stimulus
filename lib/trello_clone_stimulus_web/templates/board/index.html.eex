@@ -6,7 +6,7 @@
 
   <div class="page-items" id="page">
     <%= for board <- Enum.sort_by(@boards, &(&1.order)) do %>
-      <div id="board-container-<%= board.id %>" class="board" style="background-color:<%= board.color %>">
+      <div id="container-board-<%= board.id %>" class="board" style="background-color:<%= board.color %>">
         <div class="colors">
           <div class="red" data-action="click->board#changeColor"></div>
           <div class="white" data-action="click->board#changeColor"></div>
@@ -19,7 +19,7 @@
         <div id="board-<%= board.id %>" class="board-items">
 
           <%= for lane <- Enum.sort_by(board.lanes, &(&1.order)) do %>
-            <div id="lane-container-<%= lane.id %>" class="lane" style="background-color:<%= lane.color %>">
+            <div id="container-lane-<%= lane.id %>" class="lane" style="background-color:<%= lane.color %>">
               <div class="colors">
                 <div class="red" data-action="click->board#changeColor"></div>
                 <div class="white" data-action="click->board#changeColor"></div>
@@ -32,7 +32,7 @@
               <div id="lane-<%= lane.id %>" class="sortable-lane">
 
                 <%= for panel <- Enum.sort_by(lane.panels, &(&1.order)) do %>
-                  <div id="panel-container-<%= panel.id %>" class="my-panel" style="background-color:<%= panel.color %>" data-action="click->board#handleEvent">
+                  <div id="container-panel-<%= panel.id %>" class="my-panel" style="background-color:<%= panel.color %>" data-action="click->board#handleEvent">
                     <div class="colors">
                       <div class="red" data-action="click->board#changeColor"></div>
                       <div class="white" data-action="click->board#changeColor"></div>
@@ -61,3 +61,4 @@
 </div>
 
 <span><%= link "New Board", to: board_path(@conn, :new) %></span>
+<script>window.userToken = "<%= assigns[:user_token] %>"</script>

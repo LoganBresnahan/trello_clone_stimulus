@@ -1,12 +1,15 @@
 # require IEx
 defmodule TrelloCloneStimulusWeb.BoardController do
   use TrelloCloneStimulusWeb, :controller
+  import Ecto
 
   alias TrelloCloneStimulus.Projects
   alias TrelloCloneStimulus.Projects.Board
 
   def index(conn, _params) do
+    conn = Plug.Conn.assign(conn, :user_token, Ecto.UUID.generate())
     boards = Projects.list_boards()
+
     render(conn, "index.html", boards: boards)
   end
 

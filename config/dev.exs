@@ -51,7 +51,7 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :trello_clone_stimulus, TrelloCloneStimulus.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "lbresnahan",
+  username: "postgres",
   password: "postgres",
   database: "trello_clone_stimulus_dev",
   hostname: "localhost",
