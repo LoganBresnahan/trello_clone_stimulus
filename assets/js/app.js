@@ -21,8 +21,8 @@ import "phoenix_html"
 import socket from "./socket"
 
 // Load Turbolinks
-const Turbolinks = require("turbolinks")
-Turbolinks.start()
+// const Turbolinks = require("turbolinks")
+// Turbolinks.start()
 
 // Load Stimulus
 import { Application } from "stimulus"

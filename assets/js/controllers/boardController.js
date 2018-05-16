@@ -58,7 +58,6 @@ export default class extends Controller {
 
     this.channel.on("blur_sort", payload => {
       if(payload.user != window.userToken) {
-        console.log("ok")
         const element = document.getElementById(payload.body)
 
         element.style.pointerEvents = "none"
@@ -69,14 +68,12 @@ export default class extends Controller {
     this.channel.on("unblur_sort", payload => {
       if(payload.user != window.userToken) {
         const item = document.getElementById(payload.body.item)
+        const toElement = document.getElementById(payload.body.to)
+        
+        payload.body.to_children.map((containerId, index) => {
+          toElement.insertAdjacentElement("beforeend", document.getElementById(containerId))
+        })
 
-        // const parentElement = document.getElementById(payload.body.to)
-        // parentElement.appendChild(item)
-        
-        const siblingElement = document.getElementById(payload.body.to_children[0])
-        // change where it is inserted so it goes after the panel container id
-        siblingElement.insertAdjacentElement("afterEnd", item)
-        
         item.style.pointerEvents = "all"
         item.style.filter = "none"
       }
@@ -138,7 +135,7 @@ export default class extends Controller {
       {
         group: "boards",
         onStart: (event) => {
-          this.channel.push("blur_sort", {body: event.item.id})
+          this.channel.push("blur_sort", {body: event.item.id, user: window.userToken})
         },
         onEnd: (event) => {
           this.updateOrder(event)
@@ -156,7 +153,7 @@ export default class extends Controller {
           {
             group: "lanes",
             onStart: (event) => {
-              this.channel.push("blur_sort", {body: event.item.id})
+              this.channel.push("blur_sort", {body: event.item.id, user: window.userToken})
             },
             onEnd: (event) => {
               this.updateOrder(event)
@@ -176,7 +173,7 @@ export default class extends Controller {
           {
             group: "panels",
             onStart: (event) => {
-              this.channel.push("blur_sort", {body: event.item.id})
+              this.channel.push("blur_sort", {body: event.item.id, user: window.userToken})
             },
             onEnd: (event) => {
               this.updateOrder(event)

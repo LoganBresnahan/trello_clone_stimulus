@@ -32,8 +32,13 @@ defmodule TrelloCloneStimulusWeb.RoomChannel do
     broadcast! socket, "blur_sort", %{body: body, user: user}
     {:noreply, socket}
   end
-  def handle_in("unblur_sort", %{"body" => body = %{to_children: to_children}, "user" => user}, socket) do
-    Enum.each(to_children, fn(id) -> id end)
+  def handle_in("unblur_sort", %{"body" => body = %{"to_children" => to_children}, "user" => user}, socket) do
+    
+    to_children = Enum.map(to_children, fn(id) ->
+      "container-" <> id
+    end)
+
+    body = Map.update!(body, "to_children", &(&1 = to_children))
 
     broadcast! socket, "unblur_sort", %{body: body, user: user}
     {:noreply, socket}
