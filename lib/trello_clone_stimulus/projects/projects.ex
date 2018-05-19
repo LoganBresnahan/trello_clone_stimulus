@@ -28,6 +28,21 @@ defmodule TrelloCloneStimulus.Projects do
     |> Repo.all()
   end
 
+  # def list_boards do
+  #   query = """
+  #     SELECT 
+  #     b.*,
+  #     l.*,
+  #     p.*
+  #     FROM boards b
+  #     JOIN LATERAL (SELECT * FROM lanes lq WHERE lq.board_id = b.id ORDER BY lq.order) l ON true
+  #     JOIN LATERAL (SELECT * FROM panels pq WHERE pq.lane_id = l.id ORDER BY pq.order) p ON true
+  #     ORDER BY b.order
+  #   """
+
+  #   Ecto.Adapters.SQL.query!(Repo, query, []).rows |> List.first()
+  # end
+
   @doc """
   Gets a single board.
 

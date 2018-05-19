@@ -55,7 +55,8 @@ Repo.insert!(
       %Board{},
       %{
         name: "Board #{n}",
-        group: group1
+        group: group1,
+        order: n
       }
     )
   )
@@ -67,7 +68,8 @@ end)
       %Lane{},
       %{
         title: "Lane #{n}",
-        board: (if (x = rem(n, 3)) == 0, do: Repo.get!(Board, 3), else: Repo.get!(Board, x))
+        board: (if (x = rem(n, 3)) == 0, do: Repo.get!(Board, 3), else: Repo.get!(Board, x)),
+        order: n
       }
     )
   )
