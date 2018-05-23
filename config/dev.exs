@@ -55,6 +55,4 @@ config :trello_clone_stimulus, TrelloCloneStimulus.Repo,
   password: "postgres",
   database: "trello_clone_stimulus_dev",
   hostname: "localhost",
-  # hostname: "192.168.0.110",
-  # port: "1596",
   pool_size: 10
