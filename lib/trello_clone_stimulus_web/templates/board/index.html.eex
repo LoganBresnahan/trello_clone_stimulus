@@ -53,9 +53,8 @@
         </div>
       </div>
     <% end %>
-    
+
   </div>
 </div>
 
-<span><%= link "New Board", to: board_path(@conn, :new) %></span>
 <script>window.userToken = "<%= assigns[:user_token] %>"</script>

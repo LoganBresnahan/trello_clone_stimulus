@@ -1,4 +1,4 @@
-defmodule TrelloCloneStimulus.Event do
+defmodule TrelloCloneStimulusWeb.TokenServer do
   use GenServer
 
   # Client API
