@@ -10,17 +10,9 @@ export default class extends Controller {
     socket.connect()
     this.channel = socket.channel("room:lobby", {})
 
-    // const messageContainer = document.querySelector("#messages")
-
     this.channel.join()
       .receive("ok", resp => { console.log("Joined successfully", resp) })
       .receive("error", resp => { console.log("Unable to join", resp) })
-
-    // this.channel.on("new_msg", payload => {
-    //   let messageItem = document.createElement("li")
-    //   messageItem.innerText = `[${Date()}] ${payload.body}`
-    //   messageContainer.appendChild(messageItem)
-    // })
 
     this.channel.on("make_editable", payload => {
       if(payload.user != window.userToken) {
@@ -110,22 +102,6 @@ export default class extends Controller {
     this.channel.push("change_color", {body: color, elementId: parentDiv.id, user: window.userToken})
   }
 
-  // handleChatInput(event) {
-  //   const target = event.currentTarget
-
-  //   if(event.keyCode === 13){
-  //     this.channel.push("new_msg", {body: target.value})
-  //     target.value = ""
-  //   }
-  // }
-
-  handleEvent(event) {
-    const target = event.currentTarget
-
-    // target.style.pointerEvents = "none"
-    // target.style.filter = "blur(5px)"
-  }
-
   //Private Methods
 
   initSortableElements() {
@@ -184,18 +160,6 @@ export default class extends Controller {
       }
     }
   }
-
-  // sendEvent(event) {
-  //   fetch("/api/event", {
-  //     method: "POST",
-  //     headers: new Headers({
-  //       "Content-Type": "application/json",
-  //     }),
-  //     body: JSON.stringify({
-  //       event: event
-  //     })
-  //   })
-  // }
 
   unBlurSort(sortEvent) {
     const payload = {

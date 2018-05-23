@@ -1,10 +1,6 @@
-<h2>Chat Log</h2>
-
 <div data-controller="board">
-  <div id="messages"></div>
-  <input id="chat-input" type="text" data-action="keypress->board#handleChatInput"></input>
-
   <div class="page-items" id="page">
+
     <%= for board <- Enum.sort_by(@boards, &(&1.order)) do %>
       <div id="container-board-<%= board.id %>" class="board" style="background-color:<%= board.color %>">
         <div class="colors">
@@ -57,6 +53,7 @@
         </div>
       </div>
     <% end %>
+    
   </div>
 </div>
 
